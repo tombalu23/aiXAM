@@ -12,8 +12,11 @@
 import re
 import nltk
 import numpy as np
-from nltk.corpus import wordnet as wn
 
+#add your path for nltk data
+nltk.data.path.append('D:\\Softwares\\nltk_data')
+
+from nltk.corpus import wordnet as wn
 
 class ObjectiveTest:
     """Class abstraction for objective test generation module

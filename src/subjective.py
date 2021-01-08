@@ -12,6 +12,8 @@
 import numpy as np
 import nltk as nlp
 
+#add your path for nltk data
+nlp.data.path.append('D:\\Softwares\\nltk_data')
 
 class SubjectiveTest:
     """Class abstraction for subjective test generation module.
