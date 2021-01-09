@@ -20,6 +20,7 @@ from src import app
 from src.objective import ObjectiveTest
 from src.subjective import SubjectiveTest
 from src.utils import relative_ranking, backup
+from src.mcq import fetchMCQ
 
 # Placeholders
 global_answers = list()
@@ -181,4 +182,16 @@ def output():
         max_score=max_score,
         min_score=min_score,
         mean_score=mean_score
+    )
+
+@ app.route("/mcq", methods=["GET", "POST"])
+def mcq():
+    mcq_list = []
+    mcq_list = fetchMCQ("corpus/dbms.txt")
+    print("mcq_list:")
+    print(mcq_list)
+    return render_template(
+        "mcq.html",
+         mcq_list=mcq_list
+
     )
