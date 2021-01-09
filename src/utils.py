@@ -14,7 +14,6 @@ import os
 import csv
 import numpy as np
 import pandas as pd
-
 import nltk
 #add your path for nltk data
 nltk.data.path.append('D:\\Softwares\\nltk_data')
@@ -115,12 +114,10 @@ def relative_ranking(session):
 def summarizer(filename):
     f = open(filename,"r")
     full_text = f.read()
-
     model = Summarizer()
     result = model(full_text, min_length=60, max_length = 500 , ratio = 0.4)
-
     summarized_text = ''.join(result)
-    return summarized_text
+    return full_text, summarized_text
 
 def get_nouns_multipartite(text):
     out=[]
@@ -171,8 +168,6 @@ def get_sentences_for_keyword(keywords, sentences):
         values = sorted(values, key=len, reverse=True)
         keyword_sentences[key] = values
     return keyword_sentences
-
-
 
 # Distractors from Wordnet
 def get_distractors_wordnet(syn,word):
