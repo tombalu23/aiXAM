@@ -16,29 +16,35 @@ Jquery	https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js			 -->
     <title>Hello, world!</title>
   </head>
   <body>
-    {% for mcq in mcq_list %}
 
-<div class="container mt-sm-5 my-1">
-    <div class="question ml-sm-5 pl-sm-5 pt-2">
-        <div class="py-2 h5"><b>{{ mcq["question"] }}</b></div>
-        <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options"> 
 
-            {% for option in mcq["choices"] %}
+<form action='/quiz' method='POST'>
+  {% for mcq in mcq_list %}
+    <div class="container mt-sm-5 my-1">
+        <div class="question ml-sm-5 pl-sm-5 pt-2">
+            <div class="py-2 h5"><b>{{ mcq["question"] }}</b></div>
+            <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options"> 
 
-            <label class="options">{{ option }} 
-            <input type="radio" name="radio"> <span class="checkmark"></span> 
-            </label> 
+                {% for option in mcq["choices"] %}
 
-            {% endfor %}    
+                <label class="options">{{ option }} 
+                <input type="radio" name='{{ mcq["question"] }}' value='{{ option }}' > <span class="checkmark"></span> 
+                </label> 
+
+                {% endfor %}    
+            </div>
+        </div>
+        {# <div class="d-flex align-items-center pt-3">
+            <div id="prev"> <button class="btn btn-primary">Previous</button> </div>
+            <div class="ml-auto mr-sm-5"> <button class="btn btn-success">Next</button> </div>
+        </div> #}
+        
     </div>
-    </div>
-    <div class="d-flex align-items-center pt-3">
-        <div id="prev"> <button class="btn btn-primary">Previous</button> </div>
-        <div class="ml-auto mr-sm-5"> <button class="btn btn-success">Next</button> </div>
-    </div>
-</div>
+  {% endfor %}
+  <div id="prev"> <button type=submit value=submit class="btn btn-primary">Submit</button> </div>
+</form>
 
-{% endfor %}
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

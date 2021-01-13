@@ -24,6 +24,9 @@ from src.mcq import fetchMCQ
 
 # Placeholders
 global_answers = list()
+mcq_list = []
+
+
 
 
 @app.route('/')
@@ -186,8 +189,8 @@ def output():
 
 @ app.route("/mcq", methods=["GET", "POST"])
 def mcq():
-    mcq_list = []
     mcq_list = fetchMCQ("corpus/dbms.txt")
+    session['mcq_list'] = mcq_list
     print("mcq_list:")
     print(mcq_list)
     return render_template(
@@ -195,3 +198,9 @@ def mcq():
          mcq_list=mcq_list
 
     )
+
+@app.route('/quiz', methods=['POST'])
+def quiz_answers():
+    print(session[mcq_list])
+    
+    return '<h1>Correct Answers</h1>'
