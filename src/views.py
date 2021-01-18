@@ -191,16 +191,16 @@ def output():
 def mcq():
     mcq_list = fetchMCQ("corpus/dbms.txt")
     session['mcq_list'] = mcq_list
-    print("mcq_list:")
-    print(mcq_list)
     return render_template(
         "mcq.html",
          mcq_list=mcq_list
-
     )
 
 @app.route('/quiz', methods=['POST'])
 def quiz_answers():
-    print(session[mcq_list])
-    
-    return '<h1>Correct Answers</h1>'
+    mcq_list = session['mcq_list']
+    mark = 0
+    for mcq in mcq_list:
+        if request.form[mcq['question']] == mcq['answer']:
+            mark += 1
+    return '<h1>Mark: ' + str(mark) + '</h1>y'

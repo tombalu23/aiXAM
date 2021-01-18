@@ -24,7 +24,7 @@ networkx==2.5
 nltk==3.5
 numpy==1.19.5
 packaging==20.8
-pandas==1.2.0
+pandas==1.2.
 pke==1.8.1
 plac==0.9.6
 preshed==2.0.1
