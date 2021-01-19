@@ -203,4 +203,4 @@ def quiz_answers():
     for mcq in mcq_list:
         if request.form[mcq['question']] == mcq['answer']:
             mark += 1
-    return '<h1>Mark: ' + str(mark) + '</h1>y'
+    return '<h1>Mark: ' + str(mark) + '</h1>'
