@@ -21,13 +21,12 @@ from src.objective import ObjectiveTest
 from src.subjective import SubjectiveTest
 from src.utils import relative_ranking, backup
 from src.mcq import fetchMCQ
+import src.utils as utils
+import sqlite3 as sql
 
 # Placeholders
 global_answers = list()
 mcq_list = []
-
-
-
 
 @app.route('/')
 @app.route('/home')
@@ -35,11 +34,13 @@ def home():
     ''' Renders the home page '''
     directory = os.path.join(str(os.getcwd()), "database")
     session["database_path"] = os.path.join(str(os.getcwd()), "database", "userlog.csv")
+
     if "userlog.csv" not in os.listdir(directory):
         df = pd.DataFrame(columns=["DATE", "USERNAME", "SUBJECT", "SUBJECT_ID", "TEST_TYPE", "TEST_ID", "SCORE", "RESULT"])
         df.to_csv(session["database_path"], index=False)
     else:
         print("Database in place!")
+
     session["date"] = datetime.now()
     return render_template(
         "index.html",
@@ -189,7 +190,8 @@ def output():
 
 @ app.route("/mcq", methods=["GET", "POST"])
 def mcq():
-    mcq_list = fetchMCQ("corpus/dbms.txt")
+    mcq_list = utils.FetchMCQfromDB('dbms.txt')
+    print(mcq_list)
     session['mcq_list'] = mcq_list
     return render_template(
         "mcq.html",
@@ -198,9 +200,49 @@ def mcq():
 
 @app.route('/quiz', methods=['POST'])
 def quiz_answers():
-    mcq_list = session['mcq_list']
+    mcq_list = utils.FetchMCQfromDB('dbms.txt')
     mark = 0
     for mcq in mcq_list:
         if request.form[mcq['question']] == mcq['answer']:
             mark += 1
     return '<h1>Mark: ' + str(mark) + '</h1>'
+        
+
+@app.route('/upload', methods=["GET"])
+def upload():
+    return render_template("file_upload.html")
+
+@app.route('/success', methods = ['POST'])  
+def success():  
+    if request.method == 'POST':  
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
+
+        conn = sql.connect('database.db')
+        conn.execute('CREATE TABLE IF NOT EXISTS mcqs(filename TEXT, question TEXT, answer TEXT, option1 TEXT, option2 TEXT, option3 TEXT, option4 TEXT)')
+
+        # cur = conn.cursor()
+    
+        mcq_list = fetchMCQ("corpus/dbms.txt")
+        # for mcq in mcq_list:
+        #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+
+        try:
+            with sql.connect("database.db") as con:
+                print(mcq_list)
+                cur = con.cursor()
+                for mcq in mcq_list:
+                    print(mcq)
+                    cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+                con.commit()
+                msg = "Record successfully added"
+        except Exception as e:
+            msg = str(e)
+            con.rollback()         
+        finally:
+            con.close()
+            return render_template("success.html", msg = msg)
+            
+
+    
+
