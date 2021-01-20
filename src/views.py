@@ -205,7 +205,8 @@ def quiz_answers():
     for mcq in mcq_list:
         if request.form[mcq['question']] == mcq['answer']:
             mark += 1
-    return '<h1>Mark: ' + str(mark) + '</h1>'
+    percentage = (mark/len(mcq_list) ) * 100
+    return '<h1>Percentage: ' + str(percentage) + '%' + '</h1>'
         
 
 @app.route('/upload', methods=["GET"])
