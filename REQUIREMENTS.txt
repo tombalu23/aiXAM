@@ -6,7 +6,7 @@ chardet==4.0.0
 click==7.1.2
 cymem==2.0.5
 decorator==4.4.2
-en-core-web-sm==2.1.0
+# en-core-web-sm==2.1.0
 filelock==3.0.12
 flashtext==2.7
 Flask==1.1.2
@@ -24,8 +24,8 @@ networkx==2.5
 nltk==3.5
 numpy==1.19.5
 packaging==20.8
-pandas==1.2.
-pke==1.8.1
+pandas==1.2.0
+# pke==1.8.1
 plac==0.9.6
 preshed==2.0.1
 pyparsing==2.4.7

@@ -1,3 +1,4 @@
+
 # Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
 #
 #
@@ -15,6 +16,7 @@ import csv
 import numpy as np
 import pandas as pd
 import nltk
+import sqlite3 as sql
 #add your path for nltk data
 nltk.data.path.append('/home/girish/softwares/nltk_data')
 
@@ -226,3 +228,41 @@ def get_distractors_conceptnet(word):
                 distractor_list.append(word2)
                    
     return distractor_list
+
+def FetchMCQfromDB( filename ):
+    con = sql.connect("database.db")
+    con.row_factory = sql.Row
+   
+    cur = con.cursor()
+    cur.execute("select * from mcqs where filename =" + "'" + filename + "'")
+   
+    rows = cur.fetchall(); 
+    print(rows)
+    data =[]
+    columns = [column[0] for column in cur.description]
+    for row in rows:
+        data.append(dict(zip(columns, row)))
+    for index, row in enumerate(rows):
+        choices = []
+        choices.append(row['option1'])
+        choices.append(row['option2'])
+        choices.append(row['option3'])
+        choices.append(row['option4'])
+        data[index]["choices"] = choices
+    return data
+    
+def FetchTests():
+    con = sql.connect("database.db")
+    con.row_factory = sql.Row
+   
+    cur = con.cursor()
+    cur.execute("select distinct filename from mcqs")
+    data = []
+    rows = cur.fetchall(); 
+    for row in rows:
+        data.append(list(row))
+    for i in range(len(data)):
+        data[i] = data[i][0]
+    return data
+   
+>>>>>>> 020308f8847be732211dcaae63ac49761d993f26

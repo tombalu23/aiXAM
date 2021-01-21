@@ -1,3 +1,4 @@
+
 # Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
 #
 #                     GNU GENERAL PUBLIC LICENSE
@@ -11,5 +12,8 @@
 # Import packages
 from flask import Flask
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = './corpus'
+
 
 import src.views

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="31c28780-e302-452c-9bae-a77cc5ee4216" name="Default Changelist" comment="" />
+    <list default="true" id="31c28780-e302-452c-9bae-a77cc5ee4216" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/corpus/egypt.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/css/final.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/css/result-style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/images/download.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/file_upload.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/homepage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/results.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQUIREMENTS.txt" beforeDir="false" afterPath="$PROJECT_DIR$/REQUIREMENTS.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/corpus/software-testing.txt" beforeDir="false" afterPath="$PROJECT_DIR$/corpus/software-testing.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/runserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mcq.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mcq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,6 +94,7 @@
       <workItem from="1610853747807" duration="1798000" />
       <workItem from="1610859753298" duration="4363000" />
       <workItem from="1611062568162" duration="12646000" />
+      <workItem from="1611213797813" duration="401000" />
     </task>
     <servers />
   </component>
@@ -92,6 +111,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1610553337825">

@@ -38,12 +38,12 @@ def fetchMCQ(filepath):
         output = pattern.sub( " _______ ", sentence)
         mcq['question'] = output
         choices = [each.capitalize()] + key_distractor_list[each]
-        mcq['answer'] = each.capitalize()
-        top4choices = choices[:4]
-        mcq['choices'] = top4choices
-        random.shuffle(top4choices)
-        mcqs.append(mcq)
-    
+        if len(choices) >= 4:
+            mcq['answer'] = each.capitalize()
+            top4choices = choices[:4]
+            mcq['choices'] = top4choices
+            random.shuffle(top4choices)
+            mcqs.append(mcq)
     return mcqs
 
     
