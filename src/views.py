@@ -204,15 +204,16 @@ def mcq(name):
     session['mcq_list'] = mcq_list
     return render_template(
         "mcq.html",
-         mcq_list=mcq_list
+         mcq_list=mcq_list,
+         filename = name
     )
 
-@app.route('/quiz', methods=['POST'])
-def quiz_answers():
-    mcq_list = utils.FetchMCQfromDB('dbms.txt')
+@app.route('/quiz/<name>', methods=["GET", 'POST'])
+def quiz_answers(name):
+    mcq_list = utils.FetchMCQfromDB(name)
     mark = 0
     for mcq in mcq_list:
-        if request.form[mcq['question']] == mcq['answer']:
+        if request.form.get(mcq["question"], '_NA_')== mcq['answer']:
             mark += 1
     percentage = round((mark/len(mcq_list)), 2 ) * 100
     # return '<h1>Percentage: ' + str(percentage) + '%' + '</h1>'
