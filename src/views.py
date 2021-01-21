@@ -274,7 +274,7 @@ def successt5():
     
         text = utils.fileToText("corpus/" + f.filename)
         print(text)
-        return text
+        # return text
         # return render_template()
         # for mcq in mcq_list:
         #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
