@@ -28,7 +28,16 @@ import sqlite3 as sql
 global_answers = list()
 mcq_list = []
 
-@app.route('/')
+@app.route('/',methods=['GET', 'POST'])
+def demo():
+    tests = utils.FetchTests()
+
+    return render_template("homepage.html", tests = tests)
+
+
+
+
+
 @app.route('/home')
 def home():
     ''' Renders the home page '''
@@ -188,9 +197,9 @@ def output():
         mean_score=mean_score
     )
 
-@ app.route("/mcq", methods=["GET", "POST"])
-def mcq():
-    mcq_list = utils.FetchMCQfromDB('dbms.txt')
+@ app.route("/mcq/<name>", methods=["GET", "POST"])
+def mcq(name):
+    mcq_list = utils.FetchMCQfromDB(name)
     print(mcq_list)
     session['mcq_list'] = mcq_list
     return render_template(
@@ -225,7 +234,7 @@ def success():
 
         # cur = conn.cursor()
     
-        mcq_list = fetchMCQ("corpus/dbms.txt")
+        mcq_list = fetchMCQ("corpus/" + f.filename)
         # for mcq in mcq_list:
         #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
 

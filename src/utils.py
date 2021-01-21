@@ -250,5 +250,17 @@ def FetchMCQfromDB( filename ):
         data[index]["choices"] = choices
     return data
     
-     
-
+def FetchTests():
+    con = sql.connect("database.db")
+    con.row_factory = sql.Row
+   
+    cur = con.cursor()
+    cur.execute("select distinct filename from mcqs")
+    data = []
+    rows = cur.fetchall(); 
+    for row in rows:
+        data.append(list(row))
+    for i in range(len(data)):
+        data[i] = data[i][0]
+    return data
+   
