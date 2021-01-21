@@ -254,6 +254,49 @@ def success():
         finally:
             con.close()
             return render_template("success.html", msg = msg)
+
+@app.route("/mcqt5/")
+def mcq_t5():
+
+    return render_template("file_upload_t5.html")
+
+
+@app.route('/successt5', methods = ['POST'])  
+def successt5():  
+    if request.method == 'POST':  
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
+
+        # conn = sql.connect('database.db')
+        # conn.execute('CREATE TABLE IF NOT EXISTS mcqs(filename TEXT, question TEXT, answer TEXT, option1 TEXT, option2 TEXT, option3 TEXT, option4 TEXT)')
+
+        # cur = conn.cursor()
+    
+        text = utils.fileToText("corpus/" + f.filename)
+        print(text)
+        return text
+        # return render_template()
+        # for mcq in mcq_list:
+        #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+
+        # try:
+        #     with sql.connect("database.db") as con:
+        #         print(mcq_list)
+        #         cur = con.cursor()
+        #         for mcq in mcq_list:
+        #             print(mcq)
+        #             cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+        #         con.commit()
+        #         msg = "Record successfully added"
+        # except Exception as e:
+        #     msg = str(e)
+        #     con.rollback()         
+        # finally:
+        #     con.close()
+        #     return render_template("success.html", msg = msg)
+
+
+
             
 
     
