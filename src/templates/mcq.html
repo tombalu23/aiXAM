@@ -18,7 +18,7 @@ Jquery	https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js			 -->
   <body>
 
 
-<form action='/quiz' method='POST'>
+<form action='/quiz/{{filename}}' method='POST'>
   {% for mcq in mcq_list %}
     <div class="container mt-sm-5 my-1">
         <div class="question ml-sm-5 pl-sm-5 pt-2">
