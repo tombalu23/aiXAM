@@ -105,7 +105,11 @@ body {
 }
 
 body {
-	background: #b993d6;
+	/* default */
+	/* background: #b993d6; */
+
+	background: #6c757d;
+
 	/* background: rgb(228, 228, 228);
     background-image: url('../img/bg.jpg');
     background-size: 125%; 

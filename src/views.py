@@ -1,9 +1,9 @@
-
+=======
 # Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
 #
 #                     GNU GENERAL PUBLIC LICENSE
 #                        Version 3, 29 June 2007
-#  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+#  Copyright (C) 2007 Free Software Foundation, Inc. <8kijujiogyiuyhjkiuyujyuioplkjhgfdsa ,,mnhkjhgdbjopoiuythgfm;][poiuytghj[p0o9itrfgbv hujhhttp://fsf.org/>
 #  Everyone is permitted to copy and distribute verbatim copies
 #  of this license document, but changing it is not allowed.
 # ==============================================================================
@@ -205,15 +205,16 @@ def mcq(name):
     session['mcq_list'] = mcq_list
     return render_template(
         "mcq.html",
-         mcq_list=mcq_list
+         mcq_list=mcq_list,
+         filename = name
     )
 
-@app.route('/quiz', methods=['POST'])
-def quiz_answers():
-    mcq_list = utils.FetchMCQfromDB('dbms.txt')
+@app.route('/quiz/<name>', methods=["GET", 'POST'])
+def quiz_answers(name):
+    mcq_list = utils.FetchMCQfromDB(name)
     mark = 0
     for mcq in mcq_list:
-        if request.form[mcq['question']] == mcq['answer']:
+        if request.form.get(mcq["question"], '_NA_')== mcq['answer']:
             mark += 1
     percentage = round((mark/len(mcq_list)), 2 ) * 100
     # return '<h1>Percentage: ' + str(percentage) + '%' + '</h1>'
@@ -255,7 +256,4 @@ def success():
             con.close()
             return render_template("success.html", msg = msg)
             
-
-    
-
 
