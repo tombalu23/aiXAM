@@ -7,13 +7,11 @@
 #  Everyone is permitted to copy and distribute verbatim copies
 #  of this license document, but changing it is not allowed.
 # ==============================================================================
-
-
 # Import packages
 from flask import Flask
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = './corpus'
 
-
 import src.views
+

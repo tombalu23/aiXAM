@@ -265,4 +265,3 @@ def FetchTests():
         data[i] = data[i][0]
     return data
    
->>>>>>> 020308f8847be732211dcaae63ac49761d993f26
