@@ -43,7 +43,7 @@ from nltk.corpus import wordnet as wn
 
 from src.pipelines import pipeline
 
-def generate_mcq(text):
+def generate_qa(text):
     #our function
     nlp = pipeline("question-generation")
     return nlp(text)
@@ -272,14 +272,19 @@ def FetchTests():
     return data
 
 
-    def fileToText(filepath):
-        #method to read file and output text
-        try:
-            with open(filepath, mode="r") as fp:
-                text = fp.read()
-            return text
-        except FileNotFoundError as e:
-            print("Exception raised in fileToText()", e)
+def fileToText(filepath):
+    #method to read file and output text
+    try:
+        with open(filepath, mode="r") as fp:
+            text = fp.read()
+        return text
+    except FileNotFoundError as e:
+        print("Exception raised in fileToText()", e)
+
+
+        
+    
+
 
 
    

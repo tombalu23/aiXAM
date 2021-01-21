@@ -19,11 +19,11 @@ from werkzeug.utils import secure_filename
 from src import app
 from src.objective import ObjectiveTest
 from src.subjective import SubjectiveTest
-from src.utils import relative_ranking, backup
+from src.utils import relative_ranking, backup, fileToText
 from src.mcq import fetchMCQ
 import src.utils as utils
 import sqlite3 as sql
-
+import src.utils as utils
 # Placeholders
 global_answers = list()
 mcq_list = []
@@ -31,7 +31,6 @@ mcq_list = []
 @app.route('/',methods=['GET', 'POST'])
 def demo():
     tests = utils.FetchTests()
-
     return render_template("homepage.html", tests = tests)
 
 
@@ -224,7 +223,7 @@ def quiz_answers(name):
 def upload():
     return render_template("file_upload.html")
 
-@app.route('/success', methods = ['POST'])  
+# @app.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST':  
         f = request.files['file']  
@@ -295,9 +294,30 @@ def successt5():
         #     con.close()
         #     return render_template("success.html", msg = msg)
 
+@app.route('/success', methods = ['POST'])
+def s():
+    print("upload success")
+    if request.method == 'POST': 
+        print(request.files['file'].filename) 
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
 
+        text = utils.fileToText("corpus/" + f.filename)
+        print(text)
 
+        qas = utils.generate_qa(text)
+
+        for qa in qas:
+            ans = qa['answer']
+            distractors = utils.get_distractors_conceptnet(ans)
             
+            if len(distractors) >= 4:
+                top4choices = distractors[:4]
+                qa['choices'] = top4choices
+                print(distractors)
+                print(qas)
+                
 
-    
 
+        print("**********************\n" + str(qas))
+    return str(qas)
