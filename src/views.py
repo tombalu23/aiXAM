@@ -1,9 +1,8 @@
-=======
 # Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
 #
 #                     GNU GENERAL PUBLIC LICENSE
 #                        Version 3, 29 June 2007
-#  Copyright (C) 2007 Free Software Foundation, Inc. <8kijujiogyiuyhjkiuyujyuioplkjhgfdsa ,,mnhkjhgdbjopoiuythgfm;][poiuytghj[p0o9itrfgbv hujhhttp://fsf.org/>
+#  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
 #  Everyone is permitted to copy and distribute verbatim copies
 #  of this license document, but changing it is not allowed.
 # ==============================================================================
@@ -20,11 +19,11 @@ from werkzeug.utils import secure_filename
 from src import app
 from src.objective import ObjectiveTest
 from src.subjective import SubjectiveTest
-from src.utils import relative_ranking, backup
+from src.utils import relative_ranking, backup, fileToText
 from src.mcq import fetchMCQ
 import src.utils as utils
 import sqlite3 as sql
-
+import src.utils as utils
 # Placeholders
 global_answers = list()
 mcq_list = []
@@ -32,7 +31,6 @@ mcq_list = []
 @app.route('/',methods=['GET', 'POST'])
 def demo():
     tests = utils.FetchTests()
-
     return render_template("homepage.html", tests = tests)
 
 
@@ -225,7 +223,7 @@ def quiz_answers(name):
 def upload():
     return render_template("file_upload.html")
 
-@app.route('/success', methods = ['POST'])  
+# @app.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST':  
         f = request.files['file']  
@@ -255,5 +253,71 @@ def success():
         finally:
             con.close()
             return render_template("success.html", msg = msg)
-            
 
+@app.route("/mcqt5/")
+def mcq_t5():
+
+    return render_template("file_upload_t5.html")
+
+
+@app.route('/successt5', methods = ['POST'])  
+def successt5():  
+    if request.method == 'POST':  
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
+
+        # conn = sql.connect('database.db')
+        # conn.execute('CREATE TABLE IF NOT EXISTS mcqs(filename TEXT, question TEXT, answer TEXT, option1 TEXT, option2 TEXT, option3 TEXT, option4 TEXT)')
+
+        # cur = conn.cursor()
+    
+        text = utils.fileToText("corpus/" + f.filename)
+        print(text)
+        # return text
+        # return render_template()
+        # for mcq in mcq_list:
+        #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+
+        # try:
+        #     with sql.connect("database.db") as con:
+        #         print(mcq_list)
+        #         cur = con.cursor()
+        #         for mcq in mcq_list:
+        #             print(mcq)
+        #             cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
+        #         con.commit()
+        #         msg = "Record successfully added"
+        # except Exception as e:
+        #     msg = str(e)
+        #     con.rollback()         
+        # finally:
+        #     con.close()
+        #     return render_template("success.html", msg = msg)
+
+@app.route('/success', methods = ['POST'])
+def s():
+    print("upload success")
+    if request.method == 'POST': 
+        print(request.files['file'].filename) 
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
+
+        text = utils.fileToText("corpus/" + f.filename)
+        print(text)
+
+        qas = utils.generate_qa(text)
+
+        for qa in qas:
+            ans = qa['answer']
+            distractors = utils.get_distractors_conceptnet(ans)
+            
+            if len(distractors) >= 4:
+                top4choices = distractors[:4]
+                qa['choices'] = top4choices
+                print(distractors)
+                print(qas)
+                
+
+
+        print("**********************\n" + str(qas))
+    return str(qas)

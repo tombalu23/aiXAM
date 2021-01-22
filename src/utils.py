@@ -1,4 +1,3 @@
-
 # Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
 #
 #
@@ -17,6 +16,7 @@ import numpy as np
 import pandas as pd
 import nltk
 import sqlite3 as sql
+
 #add your path for nltk data
 nltk.data.path.append('/home/girish/softwares/nltk_data')
 
@@ -41,6 +41,13 @@ from pywsd.lesk import adapted_lesk
 from pywsd.lesk import simple_lesk
 from pywsd.lesk import cosine_lesk
 from nltk.corpus import wordnet as wn
+
+from src.pipelines import pipeline
+
+def generate_qa(text):
+    #our function
+    nlp = pipeline("question-generation")
+    return nlp(text)
 
 def backup(session):
     # Process username and subject information
@@ -264,4 +271,21 @@ def FetchTests():
     for i in range(len(data)):
         data[i] = data[i][0]
     return data
+
+
+def fileToText(filepath):
+    #method to read file and output text
+    try:
+        with open(filepath, mode="r") as fp:
+            text = fp.read()
+        return text
+    except FileNotFoundError as e:
+        print("Exception raised in fileToText()", e)
+
+
+        
+    
+
+
+
    
