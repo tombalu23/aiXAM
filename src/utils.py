@@ -10,6 +10,24 @@
 
 
 # Import packages
+from src.pipelines import pipeline
+from nltk.corpus import wordnet as wn
+from pywsd.lesk import cosine_lesk
+from pywsd.lesk import simple_lesk
+from pywsd.lesk import adapted_lesk
+from pywsd.similarity import max_similarity
+import random
+import json
+import requests
+from flashtext import KeywordProcessor
+from nltk.tokenize import sent_tokenize
+from nltk.corpus import stopwords
+import string
+import pke
+import re
+import itertools
+import pprint
+from summarizer import Summarizer
 import os
 import csv
 import numpy as np
@@ -17,37 +35,16 @@ import pandas as pd
 import nltk
 import sqlite3 as sql
 
-#add your path for nltk data
+# add your path for nltk data
 nltk.data.path.append('/home/girish/softwares/nltk_data')
 
-from summarizer import Summarizer
-
-import pprint
-import itertools
-import re
-import pke
-import string
-from nltk.corpus import stopwords
-
-from nltk.tokenize import sent_tokenize
-from flashtext import KeywordProcessor
-
-import requests
-import json
-import re
-import random
-from pywsd.similarity import max_similarity
-from pywsd.lesk import adapted_lesk
-from pywsd.lesk import simple_lesk
-from pywsd.lesk import cosine_lesk
-from nltk.corpus import wordnet as wn
-
-from src.pipelines import pipeline
 
 def generate_qa(text):
-    #our function
+    # our function
+    '''take in text, return questions and answers using google t5 model'''
     nlp = pipeline("question-generation")
     return nlp(text)
+
 
 def backup(session):
     # Process username and subject information
@@ -90,11 +87,11 @@ def backup(session):
 
 def relative_ranking(session):
     """Method to compute relative ranking of user on a particular subject.
-    
+
     Arguments:
         subjectname {str} -- Name of the test subject.
         type {str} -- Denoting the type of the test taken
-    
+
     Returns:
         int, float, int -- Maximum, Minimum and Average score obtained by the user in a paarticular subject test
     """
@@ -106,7 +103,8 @@ def relative_ranking(session):
     except Exception as e:
         print("Exception raised at `utils__relative_ranking`:", e)
     else:
-        df = df[(df["SUBJECT_ID"] == int(session["subject_id"])) & (df["TEST_ID"] == int(session["test_id"]))]
+        df = df[(df["SUBJECT_ID"] == int(session["subject_id"]))
+                & (df["TEST_ID"] == int(session["test_id"]))]
         if df.shape[0] >= 1:
             max_score = np.round(df["SCORE"].max(), decimals=2)
             min_score = np.round(df["SCORE"].min(), decimals=2)
@@ -114,22 +112,27 @@ def relative_ranking(session):
     finally:
         return max_score, min_score, mean_score
 
+    # MCQ GENERATION
 
-    ##MCQ GENERATION
+    # Summarizer
 
 
-    #Summarizer  
-
-def summarizer(filename):
-    f = open(filename,"r")
+def summarizer(filepath):
+    '''input: filepath, output: summarized text'''
+    #TODO: get minimum length, maximum length and ratio as method arguments
+    f = open(filepath, "r")
     full_text = f.read()
+    f.close()
     model = Summarizer()
-    result = model(full_text, min_length=60, max_length = 500 , ratio = 0.4)
+    result = model(full_text, min_length=60, max_length=500, ratio=0.4)
     summarized_text = ''.join(result)
     return full_text, summarized_text
 
+
 def get_nouns_multipartite(text):
-    out=[]
+    '''input: text, output: get selected nouns (max: 20)'''
+    #TODO: get no. of nouns to return (n) as method argument
+    out = []
 
     extractor = pke.unsupervised.MultipartiteRank()
     extractor.load_document(input=text)
@@ -155,13 +158,20 @@ def get_nouns_multipartite(text):
 
 
 def tokenize_sentences(text):
+    '''input: text, output: list of sentences with more than 20 letters'''
     sentences = [sent_tokenize(text)]
+    print(sentences)
     sentences = [y for x in sentences for y in x]
+    print("adkhj: ", sentences)
     # Remove any short sentences less than 20 letters.
-    sentences = [sentence.strip() for sentence in sentences if len(sentence) > 20]
+    sentences = [sentence.strip()
+                 for sentence in sentences if len(sentence) > 20]
+    print(sentences)
     return sentences
 
+
 def get_sentences_for_keyword(keywords, sentences):
+    '''input: keywords, list of all sentences. output: dictionary that maps keywords with their sentences'''
     keyword_processor = KeywordProcessor()
     keyword_sentences = {}
     for word in keywords:
@@ -179,73 +189,83 @@ def get_sentences_for_keyword(keywords, sentences):
     return keyword_sentences
 
 # Distractors from Wordnet
-def get_distractors_wordnet(syn,word):
-    distractors=[]
-    word= word.lower()
+
+
+def get_distractors_wordnet(syn, word):
+    distractors = []
+    word = word.lower()
     orig_word = word
-    if len(word.split())>0:
-        word = word.replace(" ","_")
+    if len(word.split()) > 0:
+        word = word.replace(" ", "_")
     hypernym = syn.hypernyms()
-    if len(hypernym) == 0: 
+    if len(hypernym) == 0:
         return distractors
     for item in hypernym[0].hyponyms():
         name = item.lemmas()[0].name()
         #print ("name ",name, " word",orig_word)
         if name == orig_word:
             continue
-        name = name.replace("_"," ")
+        name = name.replace("_", " ")
         name = " ".join(w.capitalize() for w in name.split())
         if name is not None and name not in distractors:
             distractors.append(name)
     return distractors
 
-def get_wordsense(sent,word):
-    word= word.lower()
-    
-    if len(word.split())>0:
-        word = word.replace(" ","_")
-    
-    synsets = wn.synsets(word,'n')
+
+def get_wordsense(sent, word):
+    word = word.lower()
+
+    if len(word.split()) > 0:
+        word = word.replace(" ", "_")
+
+    synsets = wn.synsets(word, 'n')
     if synsets:
         wup = max_similarity(sent, word, 'wup', pos='n')
-        adapted_lesk_output =  adapted_lesk(sent, word, pos='n')
-        lowest_index = min (synsets.index(wup),synsets.index(adapted_lesk_output))
+        adapted_lesk_output = adapted_lesk(sent, word, pos='n')
+        lowest_index = min(synsets.index(
+            wup), synsets.index(adapted_lesk_output))
         return synsets[lowest_index]
     else:
         return None
 
 # Distractors from http://conceptnet.io/
+
+
 def get_distractors_conceptnet(word):
+    '''Get distractors from conceptnet api'''
     word = word.lower()
-    original_word= word
-    if (len(word.split())>0):
-        word = word.replace(" ","_")
-    distractor_list = [] 
-    url = "http://api.conceptnet.io/query?node=/c/en/%s/n&rel=/r/PartOf&start=/c/en/%s&limit=5"%(word,word)
+    original_word = word
+    if (len(word.split()) > 0):
+        word = word.replace(" ", "_")
+    distractor_list = []
+    url = "http://api.conceptnet.io/query?node=/c/en/%s/n&rel=/r/PartOf&start=/c/en/%s&limit=5" % (
+        word, word)
     obj = requests.get(url).json()
 
     for edge in obj['edges']:
-        link = edge['end']['term'] 
+        link = edge['end']['term']
 
-        url2 = "http://api.conceptnet.io/query?node=%s&rel=/r/PartOf&end=%s&limit=10"%(link,link)
+        url2 = "http://api.conceptnet.io/query?node=%s&rel=/r/PartOf&end=%s&limit=10" % (
+            link, link)
         obj2 = requests.get(url2).json()
         for edge in obj2['edges']:
             word2 = edge['start']['label']
             if word2 not in distractor_list and original_word.lower() not in word2.lower():
                 distractor_list.append(word2)
-                   
+
     return distractor_list
 
-def FetchMCQfromDB( filename ):
+
+def FetchMCQfromDB(filename):
     con = sql.connect("database.db")
     con.row_factory = sql.Row
-   
+
     cur = con.cursor()
     cur.execute("select * from mcqs where filename =" + "'" + filename + "'")
-   
-    rows = cur.fetchall(); 
+
+    rows = cur.fetchall()
     print(rows)
-    data =[]
+    data = []
     columns = [column[0] for column in cur.description]
     for row in rows:
         data.append(dict(zip(columns, row)))
@@ -257,15 +277,16 @@ def FetchMCQfromDB( filename ):
         choices.append(row['option4'])
         data[index]["choices"] = choices
     return data
-    
+
+
 def FetchTests():
     con = sql.connect("database.db")
     con.row_factory = sql.Row
-   
+
     cur = con.cursor()
     cur.execute("select distinct filename from mcqs")
     data = []
-    rows = cur.fetchall(); 
+    rows = cur.fetchall()
     for row in rows:
         data.append(list(row))
     for i in range(len(data)):
@@ -274,18 +295,12 @@ def FetchTests():
 
 
 def fileToText(filepath):
-    #method to read file and output text
+    '''input: filepath, output: text in file'''
+    #TODO : Handle all file formats
+    # method to read file and output text
     try:
         with open(filepath, mode="r") as fp:
             text = fp.read()
         return text
     except FileNotFoundError as e:
         print("Exception raised in fileToText()", e)
-
-
-        
-    
-
-
-
-   

@@ -1,119 +1,83 @@
-<!--<html>-->
-<!--<head>-->
-<!--    <title>upload</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <form action = "/success" method = "post" enctype="multipart/form-data">-->
-<!--        <input type="file" name="file" />-->
-<!--        <input type = "submit" value="Upload">-->
-<!--    </form>-->
-<!--</body>-->
-<!--</html>-->
-
-<!--<html>-->
-<!--<head>-->
-<!--  <title>Upload File</title>-->
-
-<!--  &lt;!&ndash; Filepond stylesheet &ndash;&gt;-->
-<!--  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">-->
-
-<!--</head>-->
-<!--<body>-->
-
-<!--  &lt;!&ndash; We'll transform this input into a pond &ndash;&gt;-->
-<!--&lt;!&ndash;  <input type="file" class="filepond">&ndash;&gt;-->
-
-<!--  &lt;!&ndash; Load FilePond library &ndash;&gt;-->
-<!--  <script src="https://unpkg.com/filepond/dist/filepond.js"></script>-->
-<!--  <form action = "/success" method = "post" enctype="multipart/form-data">-->
-<!--        <input type="file" name="file" class="filepond" />-->
-<!--        <input type = "submit" value="Upload">-->
-<!--    </form>-->
-
-<!--  &lt;!&ndash; Turn all file input elements into ponds &ndash;&gt;-->
-<!--  <script>-->
-<!--  FilePond.parse(document.body);-->
-<!--  </script>-->
-
-<!--</body>-->
-<!--</html>-->
+<!-- HTML page to upload text files -->
 
 <html>
-<head>
-    <title>Upload File </title>
-<!--    <link rel="stylesheet" href="static/css/file_upload-style.css" />-->
-    <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css">
- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+  <head>
+    <title>Upload File</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/piexif.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/purify.min.js"></script>
-    <script src ="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text-center text-white">
+        <h1 class="text-white bg-dark">Upload your File here</h1>
+        <!-- Test all icons -->
 
+        <!-- This file input will automatically converted into "Bootstrap File Input" -->
+        <!-- Iconic preview for thumbs and detailed preview for zoom -->
+        <form action="/success" method="POST" enctype="multipart/form-data">
+          <div class="file-loading" style="padding: -200px">
+            <input id="input-ficons-5" name="file" type="file" />
+          </div>
 
-    <!--    <link rel="stylesheet" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/wtf-forms.css">-->
-</head>
-<body>
-<div class="container">
-  <div class="text-center text-white">
-<h1 class="text-white bg-dark"> Upload your File here</h1>
-    <!-- Test all icons -->
-
-
-      <!-- This file input will automatically converted into "Bootstrap File Input" -->
-      <!-- Iconic preview for thumbs and detailed preview for zoom -->
-     <form action = "/success" method = "POST" enctype="multipart/form-data">
-<!--        <input type="file" name="file" />-->
-<!--        <input type = "submit" value="Upload">-->
-
-      <div class="file-loading" style="padding: -200px;">
-        <input id="input-ficons-5" name="file"  type="file">
+          <p>&nbsp;</p>
+          <button type="submit" class="btn btn-default">Upload</button>
+        </form>
       </div>
-
-      <p>&nbsp;</p>
-      <button type="submit" class="btn btn-default">Upload</button>
- </form>
-  </div>
-</div>
-<script>
-    $("#input-ficons-5").fileinput({
-  uploadUrl: "/file-upload-batch/2",
-  uploadAsync: false,
-  previewFileIcon: '<i class="fa fa-file"></i>',
-  preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
-  previewFileIconSettings: {
-    // configure your icon file extensions
-    mov: '<i class="far fa-file-video text-warning"></i>',
-    mp3: '<i class="far fa-file-audio text-warning"></i>',
-    img: '<i class="far fa-file-image text-danger"></i>',
-    model: '<i class="fas fa-draw-polygon"></i>',
-  },
-  previewFileExtSettings: {
-    // configure the logic for determining icon file extensions
-    mov: function(ext) {
-      return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i);
-    },
-    mp3: function(ext) {
-      return ext.match(/(mp3|wav)$/i);
-    },
-    img: function(ext) {
-      return ext.match(/(jpg|gif|png|svg)$/i)
-    },
-    model: function(ext) {
-      return ext.match(/(obj|fbx)$/i)
-    }
-  }
-});
-
-</script>
-</body>
+    </div>
+    <script>
+      $("#input-ficons-5").fileinput({
+        uploadUrl: "/file-upload-batch/2",
+        uploadAsync: false,
+        previewFileIcon: '<i class="fa fa-file"></i>',
+        preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+        previewFileIconSettings: {
+          // configure your icon file extensions
+          mov: '<i class="far fa-file-video text-warning"></i>',
+          mp3: '<i class="far fa-file-audio text-warning"></i>',
+          img: '<i class="far fa-file-image text-danger"></i>',
+          model: '<i class="fas fa-draw-polygon"></i>',
+        },
+        previewFileExtSettings: {
+          // configure the logic for determining icon file extensions
+          mov: function (ext) {
+            return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i);
+          },
+          mp3: function (ext) {
+            return ext.match(/(mp3|wav)$/i);
+          },
+          img: function (ext) {
+            return ext.match(/(jpg|gif|png|svg)$/i);
+          },
+          model: function (ext) {
+            return ext.match(/(obj|fbx)$/i);
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
-

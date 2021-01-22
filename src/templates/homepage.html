@@ -1,67 +1,97 @@
+<!-- Temporary Dashboard, Customize to student and teacher dashboard later -->
 <html>
-<title>test</title>
-<head>
-   <meta charset="utf-8">
-   <link rel="stylesheet" href="final.css">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Latest compiled and minified CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-   
-   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/5.15/css/font-awesome.min.css">
-   <!-- jQuery library -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>Dashboard</title>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="final.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
 
-   <!-- Popper JS -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-   
-   <!-- Latest compiled JavaScript -->
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-   <link rel="stylesheet" href="../static/css/final.css">
-</head>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/5.15/css/font-awesome.min.css"
+    />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<body class=bg-secondary>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-<div>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../static/css/final.css" />
+  </head>
 
+  <body class="bg-secondary">
+    <div>
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-         <ul class="navbar-nav">
-            <li class="navbar-brand" style="font-weight: bold;font-family: sans-serif;"><i class="fas fa-home"></i>Home</li>
-         <li class="nav-item">
+        <ul class="navbar-nav">
+          <li
+            class="navbar-brand"
+            style="font-weight: bold; font-family: sans-serif"
+          >
+            <i class="fas fa-home"></i>Home
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/upload">
-               <i class="fas fa-plus-circle"></i> Create Test
+              <i class="fas fa-plus-circle"></i> Create Test
             </a>
-         </li>
-         <li class="nav-item">
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Tests</a>
-         </li>
-         </ul>
-         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-               <a class="nav-link" href="#" data-toggle="modal" data-target="#ModalLoginForm"><i class="fas fa-sign-in-alt"></i> Login</a>
-               </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#ModalSignupForm"><i class="far fa-user"></i> Signup</a>
-            </li>
-         </ul>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              data-toggle="modal"
+              data-target="#ModalLoginForm"
+              ><i class="fas fa-sign-in-alt"></i> Login</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              data-toggle="modal"
+              data-target="#ModalSignupForm"
+              ><i class="far fa-user"></i> Signup</a
+            >
+          </li>
+        </ul>
       </nav>
-</div>
+    </div>
 
-
-
-
-<div class="cards bg-secondary"> 
-   {% for test in tests %}	 
-	<div class="card mb-4 text-white bg-dark">	
-		       <img class="card-img-top" src="../static/images/download.png"  alt="Card image cap">
-		       <div class="card-body">
-		          <h5 class="card-title"> {{ test }} <a href="#" class="float-right d-inline-flex share"><i class="iconshare fas fa-share-alt text-muted"></i></a> </h5>
-		          <a href='http://localhost:5555/mcq/{{test}}' class="btn btn-outline-light btn-sm">Take Test</a>
-		       </div>
-	</div>
-	{% endfor %}
-</div>
-
-
-</body>
+    <div class="cards bg-secondary">
+      {% for test in tests %}
+      <div class="card mb-4 text-white bg-dark">
+        <img
+          class="card-img-top"
+          src="../static/images/download.png"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ test }}
+            <a href="#" class="float-right d-inline-flex share"
+              ><i class="iconshare fas fa-share-alt text-muted"></i
+            ></a>
+          </h5>
+          <a
+            href="http://localhost:5555/mcq/{{test}}"
+            class="btn btn-outline-light btn-sm"
+            >Take Test</a
+          >
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
 </html>

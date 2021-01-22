@@ -1,67 +1,67 @@
+<!-- Displays score as percentage -->
+
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, shrink-to-fit=no"
-		/>
-		<!-- Bootstrap CSS -->
-		<link
-			rel="stylesheet"
-			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		/>
-		<!-- Google Material Icons -->
-		<link
-			href="https://fonts.googleapis.com/icon?family=Material+Icons"
-			rel="stylesheet"
-		/>
-		<!-- Custom Style Sheet -->
-		<link rel="stylesheet" href="/static/css/result-style.css" />
-		<title>Quiz App!</title>
-		<!-- <link rel="icon" type="image/png" href="brain/img/fav.png" /> -->
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/result-style.css" />
+    <title>Results</title>
+    <!-- <link rel="icon" type="image/png" href="brain/img/fav.png" /> -->
 
-		<script>
+    <script>
+      function showResult(percentage, ca) {
+        console.log("Hello");
 
-	function showResult(percentage, ca) {
-		console.log("Hello");
+        var resultCircle = document.getElementById("resultCircle");
+        var resultFb = document.getElementById("resultFb");
+        var correctAns = document.getElementById("correctAns");
+        var quizCompleted = false;
+        var RColor;
 
-		var resultCircle = document.getElementById('resultCircle');
-		var resultFb = document.getElementById('resultFb');
-		var correctAns = document.getElementById('correctAns');
-		var quizCompleted = false;
-		var RColor;
+        if (percentage == 100) {
+          RColor = "teal";
+          resultFb.innerHTML = "Wohoo.. Great, You passed!";
+          correctAns.innerHTML = "Correct Answers: " + ca;
+        } else if (percentage >= 80) {
+          console.log(80);
+          RColor = "green";
+          resultFb.innerHTML = "Congrats! You passed!";
+          correctAns.innerHTML = "Correct Answers: " + ca;
+        } else if (percentage >= 65) {
+          RColor = "blue";
+          resultFb.innerHTML = "Good Job!, You passed!";
+          correctAns.innerHTML = "Correct Answers: " + ca;
+        } else if (percentage >= 50) {
+          RColor = "orange";
+          resultFb.innerHTML = "You just managed to pass!";
+          correctAns.innerHTML = "Correct Answers: " + ca;
+        } else {
+          RColor = "red";
+          resultFb.innerHTML =
+            "Oh No! You Failed... <br> Better Luck Next Time";
+          correctAns.innerHTML = "Correct Answers: " + ca;
+        }
 
-
-		if (percentage == 100) {
-			RColor = 'teal';
-			resultFb.innerHTML = 'Wohoo.. Great, You passed!';
-			correctAns.innerHTML = 'Correct Answers: ' + ca;
-	} else if (percentage >= 80) {
-		console.log(80)
-		RColor = 'green';
-		resultFb.innerHTML = 'Congrats! You passed!';
-		correctAns.innerHTML = 'Correct Answers: ' + ca;
-	} else if (percentage >= 65) {
-		RColor = 'blue';
-		resultFb.innerHTML = 'Good Job!, You passed!';
-		correctAns.innerHTML = 'Correct Answers: ' + ca;
-	} else if (percentage >= 50) {
-		RColor = 'orange';
-		resultFb.innerHTML = 'You just managed to pass!';
-		correctAns.innerHTML = 'Correct Answers: ' + ca;
-	} else {
-		RColor = 'red';
-		resultFb.innerHTML = 'Oh No! You Failed... <br> Better Luck Next Time';
-		correctAns.innerHTML = 'Correct Answers: ' + ca;
-	}
-
-
-	var path =
-		'<svg viewbox="0 0 36 36" class="circular-chart ' +
-		RColor +
-		'"> \
+        var path =
+          '<svg viewbox="0 0 36 36" class="circular-chart ' +
+          RColor +
+          '"> \
     <path class="circle-bg" \
     d="M18 2.0845 \
     a 15.9155 15.9155 0 0 1 0 31.831 \
@@ -69,56 +69,52 @@
     /> \
     <path class="circle" \
     stroke-dasharray="' +
-		percentage +
-		', 100" \
+          percentage +
+          ', 100" \
     d="M18 2.0845 \
     a 15.9155 15.9155 0 0 1 0 31.831 \
     a 15.9155 15.9155 0 0 1 0 -31.831" \
     /> \
     <text x="19" y="21" id="percentage">' +
-		percentage +
-		'%</text> \
-    </svg>';
-	resultCircle.innerHTML = path;
-}
-</script>
+          percentage +
+          "%</text> \
+    </svg>";
+        resultCircle.innerHTML = path;
+      }
+    </script>
+  </head>
+  <body
+    onload="showResult({{percentage}}, {{correct_answers}})"
+    background="bg-secondary"
+  >
+    <div class="container box-shadow">
+      <!-- The Result -->
+      <section id="theResult">
+        <div id="resultCircle">Calculating Your Result...</div>
+        <!-- Result Circle End -->
+        <br />
+        <!-- <h1>Congrats! Your Are Passed</h1> -->
+        <h2 id="resultFb" style="font-weight: bold"></h2>
+        <h3 id="correctAns"></h3>
+        <hr />
+      </section>
+    </div>
+    <!-- Container End -->
+    <button
+      class="btn btn-danger"
+      style="position: absolute; bottom: 5px; right: 5px"
+      onclick="showResult(80,8);"
+      id="logoutBtn"
+    >
+      Logout
+    </button>
 
-
-    </head>
-	<body onload="showResult({{percentage}}, {{correct_answers}})" background="bg-secondary">
-				
-
-		<div class="container box-shadow">
-			<!-- The Result -->
-			<section id="theResult">
-				<div id="resultCircle">
-
-					Calculating Your Result...
-				</div>
-				<!-- Result Circle End -->
-				<br />
-				<!-- <h1>Congrats! Your Are Passed</h1> -->
-				<h2 id="resultFb" style="font-weight: bold;"></h2>
-				<h3 id="correctAns"></h3>
-				<hr />
-			</section>
-		</div>
-		<!-- Container End -->
-		<button
-			class="btn btn-danger"
-			style="position:absolute; bottom:5px; right:5px;"
-			onclick="showResult(80,8);"
-			id="logoutBtn"
-		>
-			Logout
-		</button>
-
-		<!-- Optional JavaScript -->
-		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<!-- <script src="brain/js/questions.js"></script> -->
-		<!-- <script src="brain/js/script.js"></script> -->
-	</body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- <script src="brain/js/questions.js"></script> -->
+    <!-- <script src="brain/js/script.js"></script> -->
+  </body>
 </html>

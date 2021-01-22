@@ -33,31 +33,7 @@ def demo():
     tests = utils.FetchTests()
     return render_template("homepage.html", tests = tests)
 
-
-
-
-
-@app.route('/home')
-def home():
-    ''' Renders the home page '''
-    directory = os.path.join(str(os.getcwd()), "database")
-    session["database_path"] = os.path.join(str(os.getcwd()), "database", "userlog.csv")
-
-    if "userlog.csv" not in os.listdir(directory):
-        df = pd.DataFrame(columns=["DATE", "USERNAME", "SUBJECT", "SUBJECT_ID", "TEST_TYPE", "TEST_ID", "SCORE", "RESULT"])
-        df.to_csv(session["database_path"], index=False)
-    else:
-        print("Database in place!")
-
-    session["date"] = datetime.now()
-    return render_template(
-        "index.html",
-        date=session["date"].day,
-        month=session["date"].month,
-        year=session["date"].year
-    )
-
-
+# To know how to get values from form
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     ''' Prompt user to start the test '''
@@ -70,7 +46,7 @@ def form():
         username=session["username"]
     )
 
-
+# To know how to generate test
 @app.route("/generate_test", methods=["GET", "POST"])
 def generate_test():
     session["subject_id"] = request.form["subject_id"]
@@ -196,6 +172,7 @@ def output():
         mean_score=mean_score
     )
 
+################################################
 @ app.route("/mcq/<name>", methods=["GET", "POST"])
 def mcq(name):
     mcq_list = utils.FetchMCQfromDB(name)
@@ -254,48 +231,9 @@ def success():
             con.close()
             return render_template("success.html", msg = msg)
 
-@app.route("/mcqt5/")
-def mcq_t5():
-
-    return render_template("file_upload_t5.html")
-
-
-@app.route('/successt5', methods = ['POST'])  
-def successt5():  
-    if request.method == 'POST':  
-        f = request.files['file']  
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
-
-        # conn = sql.connect('database.db')
-        # conn.execute('CREATE TABLE IF NOT EXISTS mcqs(filename TEXT, question TEXT, answer TEXT, option1 TEXT, option2 TEXT, option3 TEXT, option4 TEXT)')
-
-        # cur = conn.cursor()
-    
-        text = utils.fileToText("corpus/" + f.filename)
-        print(text)
-        # return text
-        # return render_template()
-        # for mcq in mcq_list:
-        #         cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
-
-        # try:
-        #     with sql.connect("database.db") as con:
-        #         print(mcq_list)
-        #         cur = con.cursor()
-        #         for mcq in mcq_list:
-        #             print(mcq)
-        #             cur.execute("INSERT INTO mcqs (filename, question, answer, option1, option2, option3, option4) VALUES (?,?,?,?,?,?,?)",(f.filename,mcq['question'],mcq['answer'],mcq['choices'][0],mcq['choices'][1],mcq['choices'][2],mcq['choices'][3]) )
-        #         con.commit()
-        #         msg = "Record successfully added"
-        # except Exception as e:
-        #     msg = str(e)
-        #     con.rollback()         
-        # finally:
-        #     con.close()
-        #     return render_template("success.html", msg = msg)
-
 @app.route('/success', methods = ['POST'])
-def s():
+def success():
+    '''Generate questions from uploaded file using Google T5'''
     print("upload success")
     if request.method == 'POST': 
         print(request.files['file'].filename) 

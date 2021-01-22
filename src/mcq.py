@@ -3,6 +3,7 @@ import re
 import random
 
 def fetchMCQ(filepath):
+    '''Get filepath as input, return list of mcqs'''
     full_text, summarized_text = utils.summarizer(filepath)
     keywords = utils.get_nouns_multipartite(full_text) 
     filtered_keys=[]
@@ -45,5 +46,8 @@ def fetchMCQ(filepath):
             random.shuffle(top4choices)
             mcqs.append(mcq)
     return mcqs
+
+
+
 
     
