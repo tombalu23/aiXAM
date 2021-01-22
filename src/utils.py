@@ -16,8 +16,9 @@ import numpy as np
 import pandas as pd
 import nltk
 import sqlite3 as sql
+
 #add your path for nltk data
-# nltk.data.path.append('/home/girish/softwares/nltk_data')
+nltk.data.path.append('/home/girish/softwares/nltk_data')
 
 from summarizer import Summarizer
 

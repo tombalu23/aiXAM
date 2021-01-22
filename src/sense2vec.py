@@ -1,11 +1,11 @@
 import spacy
 # from sense2vec import Sense2VecComponent
-from sense2vec import Sense2Vec
+# from sense2vec import Sense2Vec
 import sense2vec
 from collections import OrderedDict
 
 nlp = spacy.load('en_core_web_sm')
-s2v = Sense2Vec().from_disk('../sense2vec_old/s2v_old')
+s2v = sense2vec.Sense2Vec().from_disk('../sense2vec_old/s2v_old')
 # s2v = Sense2VecComponent('/path/to/reddit_vectors-1.1.0')
 
 def sense2vec_get_words(word,s2v):

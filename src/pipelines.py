@@ -131,16 +131,23 @@ class QGPipeline:
     
     def _prepare_inputs_for_qg_from_answers_hl(self, sents, answers):
         inputs = []
+        print("Sents: ", sents, "\nanswers: ", answers)
         for i, answer in enumerate(answers):
             if len(answer) == 0: continue
+            print("for answer: ", answer)
             for answer_text in answer:
                 sent = sents[i]
                 sents_copy = sents[:]
+                print("sent: ", sent, sents_copy)
+
+                answer_text = answer_text.strip('<pad>')
                 
                 answer_text = answer_text.strip()
-                
+                print("Anser text: " , answer_text)
+
                 ans_start_idx = sent.index(answer_text)
-                
+                print("Anser text index: " , ans_start_idx)
+
                 sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
                 sents_copy[i] = sent
                 
