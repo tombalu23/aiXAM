@@ -1,0 +1,11 @@
+.gstatic.com
+.admob.com
+.analytics.localytics.com
+.flurry.com
+.greystripe.com
+inmobi.com
+admax.nexage.com
+ads.mdotm.com
+my.mobfox.com
+.plus1.wapstart.ru
+.madnet.ru

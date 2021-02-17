@@ -12,4 +12,4 @@ if __name__ == "__main__":
         PORT = 1234
     app.secret_key = "1cd6f35db029d4b8fc98fc05c9efd06a2e2cd1ffc3774d3f035ebd8d"
 
-    app.run(HOST, PORT, debug=True, threaded=True)
+    app.run(host = "0.0.0.0", port = 5555, debug=True)

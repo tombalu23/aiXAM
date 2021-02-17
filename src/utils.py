@@ -12,10 +12,10 @@
 # Import packages
 from src.pipelines import pipeline
 from nltk.corpus import wordnet as wn
-from pywsd.lesk import cosine_lesk
-from pywsd.lesk import simple_lesk
-from pywsd.lesk import adapted_lesk
-from pywsd.similarity import max_similarity
+# from pywsd.lesk import cosine_lesk
+# from pywsd.lesk import simple_lesk
+# from pywsd.lesk import adapted_lesk
+# from pywsd.similarity import max_similarity
 import random
 import json
 import requests
@@ -23,7 +23,7 @@ from flashtext import KeywordProcessor
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 import string
-import pke
+# import pke
 import re
 import itertools
 import pprint
@@ -304,3 +304,6 @@ def fileToText(filepath):
         return text
     except FileNotFoundError as e:
         print("Exception raised in fileToText()", e)
+
+def get_distractors_sense2vec(word, n=5):
+    distractors = sense2vec_get_words(word, s2v, n)

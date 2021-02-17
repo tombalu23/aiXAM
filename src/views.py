@@ -9,6 +9,7 @@
 
 
 # Import packages
+from src.distractors import get_distractors
 import os
 import flask
 import pandas as pd
@@ -231,7 +232,7 @@ def success():
             con.close()
             return render_template("success.html", msg = msg)
 
-@app.route('/success', methods = ['POST'])
+# @app.route('/success', methods = ['POST'])
 def success():
     '''Generate questions from uploaded file using Google T5'''
     print("upload success")
@@ -248,6 +249,35 @@ def success():
         for qa in qas:
             ans = qa['answer']
             distractors = utils.get_distractors_conceptnet(ans)
+            
+            if len(distractors) >= 4:
+                top4choices = distractors[:4]
+                qa['choices'] = top4choices
+                print(distractors)
+                print(qas)
+                
+
+
+        print("**********************\n" + str(qas))
+    return str(qas)
+
+@app.route('/success', methods = ['POST'])
+def s():
+    '''Generate questions from uploaded file using Google T5'''
+    print("upload success")
+    if request.method == 'POST': 
+        print(request.files['file'].filename) 
+        f = request.files['file']  
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
+
+        text = utils.fileToText("corpus/" + f.filename)
+        print(text)
+
+        qas = utils.generate_qa(text)
+
+        for qa in qas:
+            ans = qa['answer']
+            distractors = get_distractors(ans)
             
             if len(distractors) >= 4:
                 top4choices = distractors[:4]

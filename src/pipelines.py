@@ -91,6 +91,9 @@ class QGPipeline:
         answers = [item.split('<sep>') for item in dec]
         answers = [i[:-1] for i in answers]
         
+        print("Extract answers method: ")
+        print("SENTS: ", sents)
+        print("ANSWERS: ", answers)
         return sents, answers
     
     def _tokenize(self,
@@ -132,21 +135,33 @@ class QGPipeline:
     def _prepare_inputs_for_qg_from_answers_hl(self, sents, answers):
         inputs = []
         print("Sents: ", sents, "\nanswers: ", answers)
+
         for i, answer in enumerate(answers):
             if len(answer) == 0: continue
             print("for answer: ", answer)
             for answer_text in answer:
                 sent = sents[i]
                 sents_copy = sents[:]
-                print("sent: ", sent, sents_copy)
+                print("sent: ", sent, "\n")
+                #print( "sentscopy: ",sents_copy)
 
-                answer_text = answer_text.strip('<pad>')
+                answer_text = answer_text.strip('<pad>') #added space after <pad>
                 
                 answer_text = answer_text.strip()
-                print("Anser text: " , answer_text)
-
-                ans_start_idx = sent.index(answer_text)
-                print("Anser text index: " , ans_start_idx)
+                print("Answer text: " , answer_text)
+                
+                #Adding try catch block
+                #Answer text:  one ship deserted while in this passage and returned to Spain
+                # Exception:  substring not found
+                # answer_text:  one ship deserted while in this passage and returned to Spain
+                # sentence:  One ship deserted while in this passage and returned to Spain, so fewer sailors were privileged to gaze at that first panorama of the Pacific Ocean.
+                try:
+                    ans_start_idx = sent.index(answer_text)
+                    print("Answer text index: " , ans_start_idx)
+                except ValueError as e:
+                    print("Exception: ", e)
+                    print("answer_text: ", answer_text)
+                    print("sentence: ", sent)
 
                 sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
                 sents_copy[i] = sent
