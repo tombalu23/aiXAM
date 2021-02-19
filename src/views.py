@@ -25,6 +25,7 @@ from src.mcq import fetchMCQ
 import src.utils as utils
 import sqlite3 as sql
 import src.utils as utils
+from src.text_extraction import extractText
 # Placeholders
 global_answers = list()
 mcq_list = []
@@ -270,8 +271,12 @@ def s():
         f = request.files['file']  
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))  
 
-        text = utils.fileToText("corpus/" + f.filename)
-        print(text)
+        # text = utils.fileToText("corpus/" + f.filename)
+        # print(text)
+
+        #Text extraction with textract
+        text = extractText("corpus/" + f.filename)
+        print("TEXTRACT::: " , text)
 
         qas = utils.generate_qa(text)
 

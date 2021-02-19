@@ -105,3 +105,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#ignore Sense2vec folder
+/s2v_old
+/._s2v_old
