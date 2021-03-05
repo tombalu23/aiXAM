@@ -1,13 +1,3 @@
-# Copyright 2020 The `Kumar Nityan Suman` (https://github.com/nityansuman/). All Rights Reserved.
-#
-#                     GNU GENERAL PUBLIC LICENSE
-#                        Version 3, 29 June 2007
-#  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-#  Everyone is permitted to copy and distribute verbatim copies
-#  of this license document, but changing it is not allowed.
-# ==============================================================================
-
-
 # Import packages
 from src.distractors import get_distractors
 import os
@@ -26,6 +16,7 @@ import src.utils as utils
 import sqlite3 as sql
 import src.utils as utils
 from src.text_extraction import extractText
+import json
 # Placeholders
 global_answers = list()
 mcq_list = []
@@ -281,16 +272,16 @@ def s():
         qas = utils.generate_qa(text)
 
         for qa in qas:
-            ans = qa['answer']
+            ans = qa["answer"]
             distractors = get_distractors(ans)
             
             if len(distractors) >= 4:
                 top4choices = distractors[:4]
-                qa['choices'] = top4choices
+                qa["choices"] = top4choices
                 print(distractors)
                 print(qas)
                 
 
 
         print("**********************\n" + str(qas))
-    return str(qas)
+    return json.dumps(qas)
