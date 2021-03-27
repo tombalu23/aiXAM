@@ -144,10 +144,11 @@ class QGPipeline:
                 sents_copy = sents[:]
                 print("sent: ", sent, "\n")
                 #print( "sentscopy: ",sents_copy)
-
-                answer_text = answer_text.strip('<pad>') #added space after <pad>
+                print("Answer text: " , answer_text)
+                print("Stripped Answer text: " , answer_text.lstrip('<pad> ')) #strip sometimes removes last character by mistake, hence use lstrip 
+                # answer_text = answer_text.strip('<pad> ') #added space after <pad>
                 
-                answer_text = answer_text.strip()
+                answer_text = answer_text.lstrip('<pad> ')
                 print("Answer text: " , answer_text)
                 
                 #Adding try catch block
@@ -158,20 +159,39 @@ class QGPipeline:
                 try:
                     ans_start_idx = sent.index(answer_text)
                     print("Answer text index: " , ans_start_idx)
+
+                    sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
+                    sents_copy[i] = sent
+                
+                    source_text = " ".join(sents_copy)
+                    source_text = f"generate question: {source_text}" 
+
+                    print('source text: ', source_text)
+                    print('\n\n') #Empty line
+
+                    if self.model_type == "t5":
+                        source_text = source_text + " </s>"
+                
+                    inputs.append({"answer": answer_text, "source_text": source_text})
+
                 except ValueError as e:
                     print("Exception: ", e)
                     print("answer_text: ", answer_text)
                     print("sentence: ", sent)
+                
+                # sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
+                # sents_copy[i] = sent
+                
+                # source_text = " ".join(sents_copy)
+                # source_text = f"generate question: {source_text}" 
 
-                sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
-                sents_copy[i] = sent
+                # print('source text: ', source_text)
+                # print('\n\n') #Empty line
+
+                # if self.model_type == "t5":
+                #     source_text = source_text + " </s>"
                 
-                source_text = " ".join(sents_copy)
-                source_text = f"generate question: {source_text}" 
-                if self.model_type == "t5":
-                    source_text = source_text + " </s>"
-                
-                inputs.append({"answer": answer_text, "source_text": source_text})
+                # inputs.append({"answer": answer_text, "source_text": source_text})
         
         return inputs
     

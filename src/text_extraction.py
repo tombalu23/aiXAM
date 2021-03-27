@@ -7,11 +7,11 @@ def extractText(filePath):
     # print(formatted_text)
     return formatted_text
 
-#Txt file
-filePath = "./corpus/gravity.txt"
-print(extractText(filePath))
+# #Txt file
+# filePath = "./corpus/gravity.txt"
+# print(extractText(filePath))
 
-#PDF file
-filePath = "./corpus/ncert_economics_Chapter4.pdf"
-print(extractText(filePath))
+# #PDF file
+# filePath = "./corpus/ncert_economics_Chapter4.pdf"
+# print(extractText(filePath))
 

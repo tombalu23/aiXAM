@@ -17,6 +17,7 @@ import sqlite3 as sql
 import src.utils as utils
 from src.text_extraction import extractText
 import json
+import re
 # Placeholders
 global_answers = list()
 mcq_list = []
@@ -268,6 +269,9 @@ def s():
         #Text extraction with textract
         text = extractText("corpus/" + f.filename)
         print("TEXTRACT::: " , text)
+        count = len(re.findall(r'\w+', text))
+        print("No. of words(regex): ", count)
+        print("No. of chars: ", len(text))
 
         qas = utils.generate_qa(text)
 
