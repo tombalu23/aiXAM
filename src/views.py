@@ -10,12 +10,12 @@ from werkzeug.utils import secure_filename
 from src import app
 from src.objective import ObjectiveTest
 from src.subjective import SubjectiveTest
-from src.utils import relative_ranking, backup, fileToText
+from src.utils import relative_ranking, backup, fileToText, summarizer
 from src.mcq import fetchMCQ
 import src.utils as utils
 import sqlite3 as sql
 import src.utils as utils
-from src.text_extraction import extractText
+from src.text_extraction import extractText, bert_summarizer
 import json
 import re
 # Placeholders
@@ -269,9 +269,19 @@ def s():
         #Text extraction with textract
         text = extractText("corpus/" + f.filename)
         print("TEXTRACT::: " , text)
+
         count = len(re.findall(r'\w+', text))
         print("No. of words(regex): ", count)
         print("No. of chars: ", len(text))
+
+        #Summarize text exceeding 500 words
+        # word_limit = 500
+        # if(count>500):
+        #     text = bert_summarizer(text)
+        #     print("Summarized text: ", text)
+        #     count = len(re.findall(r'\w+', text))
+        #     print("Summarized word count", count)
+            
 
         qas = utils.generate_qa(text)
 
